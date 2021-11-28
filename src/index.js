@@ -1,15 +1,15 @@
 import Phaser, { Game } from "phaser";
 import TitleScene from "./scenes/titleScene";
-import flyHoreth from './scenes/flyHoreth';
+import javelinInvaders from './scenes/javelinInvaders';
 import PreloadScene from "./scenes/preloader";
 
 const titleScene = new TitleScene();
-const playScene = new flyHoreth();
+const playScene = new javelinInvaders();
 const preloadScene = new PreloadScene();
 
 const config = {
     type: Phaser.AUTO,
-    width: 1280,
+    width: 550,
     height: 720,
     physics: {
         default: 'arcade',

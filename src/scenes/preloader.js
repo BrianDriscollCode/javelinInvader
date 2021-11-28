@@ -28,17 +28,20 @@ class PreloadScene extends Phaser.Scene {
 
         this.load.image('topUI', 'assets/topUI.png');
         this.load.image('background', 'assets/newBackground.jpg');
-        this.load.image('backgroundBuildings', 'assets/backgroundBuildings.png');
+        this.load.image('backgroundBuildings', 'assets/background.png');
         this.load.image('foreground', 'assets/foreground.png');
         this.load.image('clouds', 'assets/clouds.png');
         this.load.image('dunes', 'assets/dunes.png');
         this.load.image('brightness', 'assets/brightness.png');
         this.load.image('sun', 'assets/sun.png');
         this.load.image('player', 'assets/nolanStandAnimation.png');
-        this.load.spritesheet('playerVersion2', 'assets/nolanStandAnimation.png', { frameWidth: 160, frameHeight: 160 });
+        this.load.spritesheet('playerVersion2', 'assets/javelinThrowerStandSheet.png', { frameWidth: 64, frameHeight: 64 });
         this.load.audio('orbSound', 'assets/audio/spell.mp3');
         this.load.audio('goldCollectSound', 'assets/audio/coinNew.wav')
         this.load.image('ground', 'assets/ground.png');
+
+        //new Assets
+        this.load.image('javelin', 'assets/javelin.png');
 
         
 

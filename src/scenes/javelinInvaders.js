@@ -25,6 +25,8 @@ class PlayScene extends Phaser.Scene {
 
         //playerDamage Group
         this.playerDamageGroup = null;
+        this.javelin = null;
+    
         
 
         //score
@@ -54,6 +56,7 @@ class PlayScene extends Phaser.Scene {
         //this.music.play();
         this.createBackground();
         this.createPlayer();
+        this.createJavelin();
         this.createCursorAndKeyUpKeyDown();
 
         //UI
@@ -66,26 +69,34 @@ class PlayScene extends Phaser.Scene {
     }
 
     update() {
-    
+        this.background.y -= 0;
         this.setControls();
+        
+        if (this.javelin) {
+            this.javelin.x = this.player.x + 30;
+            this.javelin.y = this.player.y;
+        }
+        
     }
  
 
     //Game Functions for Phaser function "create"
     createPlayer() {
 
+        const {width, height} = this.sys.game.canvas;
+
         this.playerDamageGroup = this.physics.add.group();
 
         this.playerAnimation = {
             key: 'playerStandAnimation',
             frames: this.anims.generateFrameNumbers('playerVersion2', {start: 0, end: 6, first: 0}),
-            frameRate: 3,
+            frameRate: 2,
             repeat: -1
         }
 
         this.anims.create(this.playerAnimation);
 
-        this.player = this.playerDamageGroup.create(100, 250, 'playerAnimation').play('playerStandAnimation');
+        this.player = this.playerDamageGroup.create(width/2, height/1.2, 'playerAnimation').play('playerStandAnimation');
         this.player.setFrame(1);
         this.player.setScale(1.1);
         this.player.setCollideWorldBounds(true);
@@ -94,23 +105,27 @@ class PlayScene extends Phaser.Scene {
 
     }
 
+    createJavelin() {
+        this.javelin = this.playerDamageGroup.create(this.player.x + 30, this.player.y, 'javelin');
+        this.javelin.setScale(1);
+    }
+
     createBackground() {
-        this.background = this.add.tileSprite(1550, 340, 2540, 720, 'background');
-        this.background.setScale(.8);
+    
 
-        this.sun = this.add.tileSprite(422, 238, 1200, 600, 'sun');
-        this.sun.setScale(4);
+        // this.sun = this.add.tileSprite(422, 238, 1200, 600, 'sun');
+        // this.sun.setScale(4);
 
-        this.background = this.add.tileSprite(1250, 360, 2540, 720, 'backgroundBuildings');
+        this.background = this.add.tileSprite(0,-1440, 550, 2160, 'backgroundBuildings').setOrigin(0,0);
         this.background.setScale(1);
         this.background.setAlpha(0.95);
-        this.dunes = this.add.tileSprite(1050, 220, 2540, 720, 'dunes');
-        this.dunes.setScale(1.4);
+        // this.dunes = this.add.tileSprite(1050, 220, 2540, 720, 'dunes');
+        // this.dunes.setScale(1.4);
         
-        this.brightness = this.add.tileSprite(1250, 360, 2540, 720, 'brightness');
-        this.brightness.setAlpha(0.6);
-        this.clouds = this.add.tileSprite(1250, 360, 2540, 720, 'clouds');
-        this.ground = this.add.tileSprite(1500, 720, -1780,-500, 'ground').setOrigin(0,0);    
+        // this.brightness = this.add.tileSprite(1250, 360, 2540, 720, 'brightness');
+        // this.brightness.setAlpha(0.6);
+        // this.clouds = this.add.tileSprite(1250, 360, 2540, 720, 'clouds');
+        // this.ground = this.add.tileSprite(1500, 720, -1780,-500, 'ground').setOrigin(0,0);    
     }
     
     //Cursors
@@ -133,64 +148,15 @@ class PlayScene extends Phaser.Scene {
 
         if (left.isDown) {
             this.player.setVelocityX(-295);
+        
             velocityStopper = true;
 
-        if (this.armorCollected == false) {
-            this.player.setFrame(3);   
-        }
-
-        if (this.armorCollected == true) {
-            this.player.setFrame(7);      
-        } }
-        else if (right.isDown) {
-            this.player.setVelocityX(625);            
-        } 
-        else if (this.keyUP.isDown) {
-            console.log(this.armorCollected);
-            this.player.setVelocityY(-325);
-            if (this.armorCollected == false) {
-                this.player.setFrame(0);
-            }
-            if (this.armorCollected == true) {
-                this.player.setFrame(4);
-            }
-
-        }
-        else if (this.keyDOWN.isDown) {
-            this.player.setVelocityY(325);
-            console.log(this.armorCollected);
-            if (this.armorCollected == false) {
-                this.player.setFrame(2);
-            }
-            if (this.armorCollected == true) {
-                this.player.setFrame(6);
-            }
-        }
-        else {
-            this.player.setVelocityY(0);
-            this.player.setDrag(1000);
-            if (velocityStopper == true) {
-                this.player.setVelocityX(0);
-                velocityStopper == false;
-            }
-            if (this.armorCollected == false) {
-                this.player.setFrame(1);
-            }
-            if (this.armorCollected == true) {
-                this.player.setFrame(5);
-            }
             
         }
-
-        if (this.keyUP.isDown && right.isDown) {
-            this.player.setVelocityY(-425);
-            this.player.setVelocityX(425);
-        }
-     
-        if (this.keyDOWN.isDown && right.isDown) {
-            this.player.setVelocityY(425);
-            this.player.setVelocityX(425);
-        }
+        else if (right.isDown) {
+            this.player.setVelocityX(295); 
+                     
+        } 
     }
 
     resetVariables() {
