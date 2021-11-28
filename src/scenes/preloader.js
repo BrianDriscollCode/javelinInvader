@@ -42,6 +42,7 @@ class PreloadScene extends Phaser.Scene {
 
         //new Assets
         this.load.image('javelin', 'assets/javelin.png');
+        this.load.image('monkey', 'assets/monkey1.png');
 
         
 
