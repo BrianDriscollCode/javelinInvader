@@ -147,14 +147,14 @@ class PlayScene extends Phaser.Scene {
         let velocityStopper = false;
 
         if (left.isDown) {
-            this.player.setVelocityX(-295);
+            this.player.x -= 6.5;
         
             velocityStopper = true;
 
             
         }
         else if (right.isDown) {
-            this.player.setVelocityX(295); 
+            this.player.x += 6.5;
                      
         } 
     }
