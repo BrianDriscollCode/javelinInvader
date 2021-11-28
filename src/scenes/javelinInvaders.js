@@ -26,8 +26,7 @@ class PlayScene extends Phaser.Scene {
         //playerDamage Group
         this.playerDamageGroup = null;
         this.javelin = null;
-    
-        
+        this.shoot = false;
 
         //score
         this.score = null;
@@ -65,16 +64,24 @@ class PlayScene extends Phaser.Scene {
         //create screen positions
         this.screenCenterX = (this.cameras.main.worldView.x + this.cameras.main.width / 2) - 13;
         this.screenCenterY = this.cameras.main.worldView.y + 20;
-        this.scoreText = this.add.text(this.screenCenterX, this.screenCenterY, '0', { fontSize: '40px', fill: 'white' }); 
+        this.scoreText = this.add.text(this.screenCenterX, this.screenCenterY + 630, '0', { fontSize: '40px', fill: 'white' }); 
     }
 
     update() {
         this.background.y -= 0;
         this.setControls();
         
-        if (this.javelin) {
+
+        if (this.javelin && this.shoot == false) {
             this.javelin.x = this.player.x + 30;
-            this.javelin.y = this.player.y;
+            this.javelin.y = this.player.y - 10;
+        }
+
+        if (this.javelin.y < 0) {
+            this.javelin.setActive(false);
+            this.javelin.destroy();
+            this.createJavelin();
+            this.shoot = false;
         }
         
     }
@@ -108,6 +115,11 @@ class PlayScene extends Phaser.Scene {
     createJavelin() {
         this.javelin = this.playerDamageGroup.create(this.player.x + 30, this.player.y, 'javelin');
         this.javelin.setScale(1);
+    }
+
+    throwJavelin() {
+        this.shoot = true;
+        this.javelin.setVelocityY(-700);
     }
 
     createBackground() {
@@ -157,6 +169,9 @@ class PlayScene extends Phaser.Scene {
             this.player.x += 6.5;
                      
         } 
+        else if (this.keyUP.isDown) {
+            this.throwJavelin();
+        }
     }
 
     resetVariables() {
