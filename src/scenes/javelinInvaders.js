@@ -164,8 +164,6 @@ class PlayScene extends Phaser.Scene {
         enemyGroup.setActive(false);
         enemyGroup.destroy();
     
-    
-
     }
 
     createBackground() {
