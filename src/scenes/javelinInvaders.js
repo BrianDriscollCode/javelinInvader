@@ -7,6 +7,7 @@ class PlayScene extends Phaser.Scene {
 
     constructor() {
         super('PlayScene');
+
     
         this.background = null;
         this.backgroundBuildings = null;
@@ -65,6 +66,7 @@ class PlayScene extends Phaser.Scene {
         this.createCursorAndKeyUpKeyDown();
         this.spawnEnemywave();
         this.javelinEnemyOverlap();
+        
 
         //UI
         //this.topUI = this.add.image(0, 360, 'topUI').setOrigin(0, 0.5);
@@ -83,6 +85,7 @@ class PlayScene extends Phaser.Scene {
         if (this.javelin && this.shoot == false) {
             this.javelin.x = this.player.x + 30;
             this.javelin.y = this.player.y - 10;
+            
         }
 
         if (this.javelin.y < 0) {
@@ -92,6 +95,7 @@ class PlayScene extends Phaser.Scene {
             this.shoot = false;
         }
         
+        this.moveEnemyWave();
     }
  
 
@@ -112,16 +116,18 @@ class PlayScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(width/2, height/1.2, 'playerAnimation').play('playerStandAnimation');
         this.player.setFrame(1);
-        this.player.setScale(1.1);
+        this.player.setScale(.9);
         this.player.setCollideWorldBounds(true);
-        this.player.body.setSize(120,45);
+        this.player.body.setSize(45,45);
         this.player.body.x += 20;
     }
 
     createJavelin() {
         
         this.javelin = this.playerDamageGroup.create(this.player.x + 30, this.player.y, 'javelin');
-        this.javelin.setScale(1);
+        this.javelin.setScale(.8);
+        this.javelin.body.setSize(20, 20, 0, 80);
+        
     }
 
     throwJavelin() {
@@ -135,9 +141,9 @@ class PlayScene extends Phaser.Scene {
         let xModifier = 5;
         let yModifier = 0;
 
-        for (let i = 0; i <= 9; i++) {
+        for (let i = 0; i <= 14; i++) {
             this.monkey = this.enemyGroup.create(this.enemyPositionX + xModifier, this.enemyPositionY + yModifier, 'monkey');
-            this.monkey.setScale(2);
+            this.monkey.setScale(1.75);
 
             xModifier += 75;
 
@@ -145,8 +151,34 @@ class PlayScene extends Phaser.Scene {
                 yModifier += 100;
                 xModifier = 5;
             }
+
+            if (i > 8 && i < 10) {
+                yModifier += 100;
+                xModifier = 5;
+            }
+
+            this.monkey.body.setSize(10,10);
         }
 
+        this.enemyGroup.setVelocityX(-150);
+
+    }
+
+    moveEnemyWave() {
+        const {width, height} = this.sys.game.canvas;
+
+        for (let i = 0; i <= this.enemyGroup.getChildren().length; i++) {
+            console.log(this.enemyGroup.getChildren);
+        }
+        console.log(this.monkey.x);
+        if (this.monkey.x <= 5) {
+            this.monkey.y += 10;
+            this.enemyGroup.setVelocityX(150);
+        } else if (this.monkey.x >= width - 5) {
+            this.monkey.y += 10;
+            this.enemyGroup.setVelocityY(-150);
+        }
+        
     }
 
     javelinEnemyOverlap() {
@@ -163,9 +195,6 @@ class PlayScene extends Phaser.Scene {
 
         enemyGroup.setActive(false);
         enemyGroup.destroy();
-    
-    
-
     }
 
     createBackground() {
