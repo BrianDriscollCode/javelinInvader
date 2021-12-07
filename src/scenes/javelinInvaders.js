@@ -82,6 +82,7 @@ class PlayScene extends Phaser.Scene {
         this.setControls();
         
 
+            //stick javeling by player
         if (this.javelin && this.shoot == false) {
             this.javelin.x = this.player.x + 30;
             this.javelin.y = this.player.y - 10;
@@ -126,7 +127,8 @@ class PlayScene extends Phaser.Scene {
         
         this.javelin = this.playerDamageGroup.create(this.player.x + 30, this.player.y, 'javelin');
         this.javelin.setScale(.8);
-        this.javelin.body.setSize(20, 20, 0, 80);
+        this.javelin.body.setSize(20, 20);
+        this.javelin.body.setOffset(8, 5)
         
     }
 
